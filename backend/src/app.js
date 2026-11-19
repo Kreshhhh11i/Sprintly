@@ -6,6 +6,7 @@ import pool from "./config/db.js";
 import ApiError from "./utils/ApiError.js";
 import errorHandler from "./middleware/ErrorHandler.js";
 import devUser from "./middleware/DevUser.js";
+import projectRoutes from "./routes/projects.routes.js"
 
 const app = express();
 
@@ -53,6 +54,10 @@ app.get("/test-user", devUser, (req, res) => {
   });
 });
 
+app.use("/api/v1/projects", projectRoutes);
+
+
+app.use(errorHandler);
 
 // Centralized error handler
 app.use(errorHandler);

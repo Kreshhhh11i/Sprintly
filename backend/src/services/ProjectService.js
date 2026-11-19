@@ -1,6 +1,5 @@
 import ApiError from "../utils/ApiError.js";
-import { createProject, findProjectById } from "../repositories/projects.repo.js";
-import { deleteProject, listByOwner, updateProject } from "../repositories/Project.repo.js";
+import { createProject, findProjectById ,deleteProject, listByOwner, updateProject } from "../repositories/Project.repo.js";
 
 export const createProjectService = async (name, description, ownerId) => {
     if (typeof name !== "string" || name.trim() === "") {
