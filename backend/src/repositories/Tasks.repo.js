@@ -36,12 +36,15 @@ SET
     description = COALESCE($2, description),
     status = COALESCE($3, status),
     priority = COALESCE($4, priority),
-    due_date = COALESCE($5, due_date),
+    due_date = CASE
+        WHEN $8::boolean THEN $5::date
+        ELSE due_date
+    END,
     updated_at = NOW()
 WHERE
     id = $6
     AND project_id = $7
-RETURNING *;`,[title,description,status,priority,dueDate,taskId,projectId])
+RETURNING *;`,[title,description,status,priority,dueDate,taskId,projectId , dueDate!==undefined])
     return result.rows[0]
 };
 
@@ -51,3 +54,5 @@ export const deleteTask = async (projectId, taskId) => {
     const result = await pool.query(`DELETE FROM tasks WHERE project_id = $1 AND id = $2 RETURNING *`, [projectId, taskId]);
     return result.rows[0];
 };
+
+

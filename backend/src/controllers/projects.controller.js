@@ -1,4 +1,4 @@
-import * as projectService from "../services/ProjectService.js";
+import * as projectService from "../services/Project.Service.js";
 
 export const createProjectController = async (req, res) => {
     const { name, description } = req.body;
