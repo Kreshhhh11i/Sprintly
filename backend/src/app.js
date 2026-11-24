@@ -7,6 +7,7 @@ import ApiError from "./utils/ApiError.js";
 import errorHandler from "./middleware/ErrorHandler.js";
 import devUser from "./middleware/DevUser.js";
 import projectRoutes from "./routes/projects.routes.js"
+import taskRoutes from "./routes/task.routes.js"
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.get("/test-user", devUser, (req, res) => {
 });
 
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/projects/:projects/tasks", taskRoutes);
 
 
 app.use(errorHandler);
