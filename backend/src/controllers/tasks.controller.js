@@ -1,10 +1,14 @@
 import * as taskService from "../services/Tasks.Services.js"
 
 export const createTaskController = async (req, res) => {
+
     const projectId = req.params.projectId;
     const createdBy = req.user.id
     const { title, description } = req.body;
     const result = await taskService.createTaskService(projectId, createdBy, title, description);
+
+
+
     return res.status(201).json({
         success: true,
         message: "Task created",
@@ -46,11 +50,11 @@ export const updateTaskController = async (req, res) => {
     });
 };
 
-export const deleteTaskController = async(req,res)=>{
+export const deleteTaskController = async (req, res) => {
     const projectId = req.params.projectId;
     const taskId = req.params.taskId;
     const createdBy = req.user.id;
-    const result = await taskService.deleteTaskService(projectId,taskId,createdBy);
+    const result = await taskService.deleteTaskService(projectId, taskId, createdBy);
     return res.status(200).json({
         success: true,
         message: "Task deleted successfully",

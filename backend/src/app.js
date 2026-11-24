@@ -56,7 +56,7 @@ app.get("/test-user", devUser, (req, res) => {
 });
 
 app.use("/api/v1/projects", projectRoutes);
-app.use("/api/v1/projects/:projects/tasks", taskRoutes);
+app.use("/api/v1/projects/:projectId/tasks", taskRoutes);
 
 
 app.use(errorHandler);
