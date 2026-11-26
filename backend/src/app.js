@@ -8,6 +8,7 @@ import errorHandler from "./middleware/ErrorHandler.js";
 import devUser from "./middleware/DevUser.js";
 import projectRoutes from "./routes/projects.routes.js"
 import taskRoutes from "./routes/task.routes.js"
+import authRoutes from "./routes/auth.routes.js"
 
 const app = express();
 
@@ -57,9 +58,9 @@ app.get("/test-user", devUser, (req, res) => {
 
 app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/projects/:projectId/tasks", taskRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 
-app.use(errorHandler);
 
 // Centralized error handler
 app.use(errorHandler);
