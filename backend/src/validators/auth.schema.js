@@ -15,3 +15,9 @@ export const registerSchema = z.object({
         path: ["password"]
     }
 );
+export const verifyEmailSchema = z.object({
+    token: z.string().regex(
+        /^[a-f0-9]{64}$/,
+        "Invalid verification token format"
+    ),
+});

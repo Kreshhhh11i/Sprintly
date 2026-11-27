@@ -1,4 +1,4 @@
-import { registerSchema } from "../validators/auth.schema.js";
+import { registerSchema, verifyEmailSchema } from "../validators/auth.schema.js";
 import {
     findUserByEmail,
     createUserRegistration
@@ -7,6 +7,7 @@ import ApiError from "../utils/ApiError.js";
 import { hashPassword } from "../utils/hash.js";
 import { generateRandomToken, hashToken } from "./Token.Service.js";
 import { sendVerificationEmail } from "./Email.Service.js";
+import { activateUserByVerificationToken } from "../repositories/Auth.repo.js";
 
 export const registerUserService = async (input) => {
 
@@ -54,7 +55,7 @@ export const registerUserService = async (input) => {
 
     let emailSent = false;
     try {
-        
+
         await sendVerificationEmail(email, rawToken);
         emailSent = true;
 
@@ -69,4 +70,21 @@ export const registerUserService = async (input) => {
             ? "Registration successful. Please verify your email."
             : "Account created, but verification email could not be sent."
     };
+};
+
+export const verifyEmailService = async (input) => {
+
+    const result = verifyEmailSchema.safeParse(input);
+    if (!result.success) {
+       throw new ApiError(400, "Invalid verification token");
+    }
+    const token = result.data.token;
+   const tokenHash = hashToken(token);
+    const dbResult = await activateUserByVerificationToken(tokenHash);
+    if (!dbResult) {
+        throw new ApiError(400, "Invalid or expired verification token")
+    }
+    return {
+        message: "Email verified successfully"
+    }
 };
